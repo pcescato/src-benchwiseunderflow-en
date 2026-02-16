@@ -7,6 +7,13 @@ cover:
   alt: "New Post -- Astro test"
 ---
 
-Test to verify if the full process is ok!
+Test to verify if the full `process `is ok!
 
 ![](/images/7/screenshot-github.com-2026.02.07-17_18_37-1024x546.webp)
+
+```
+test
+code 
+```
+
+and decode

@@ -1,0 +1,16 @@
+---
+import "../styles/global.scss";
+import "/node_modules/katex/dist/katex.min.css";
+import type { HeaderProps } from "@interfaces/data";
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const { title, description, favicon, image } = Astro.props as HeaderProps;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image" href={favicon} />
+<meta name="generator" content={Astro.generator} />
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+

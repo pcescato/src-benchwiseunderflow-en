@@ -1,0 +1,285 @@
+---
+// src/pages/partnerships.astro (EN version)
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+
+const partners = [
+  {
+    name: "TechHost Pro",
+    url: "https://example.com",
+    logo: "https://via.placeholder.com/200x80/4F46E5/FFFFFF?text=TechHost",
+    description: "High-performance hosting for developers"
+  },
+  {
+    name: "DevTools Plus",
+    url: "https://example.com",
+    logo: "https://via.placeholder.com/200x80/10B981/FFFFFF?text=DevTools",
+    description: "Tool suite to automate your workflow"
+  },
+  {
+    name: "CloudSpeed",
+    url: "https://example.com",
+    logo: "https://via.placeholder.com/200x80/F59E0B/FFFFFF?text=CloudSpeed",
+    description: "CDN and infrastructure optimization"
+  }
+];
+
+const resources = [
+  {
+    name: "Astro",
+    url: "https://astro.build",
+    icon: "simple-icons:astro",
+    description: "The framework that powers this blog",
+    color: "#FF5D01"
+  },
+  {
+    name: "Claude (Anthropic)",
+    url: "https://claude.ai",
+    icon: "simple-icons:anthropic",
+    description: "AI assistant that helped build this site",
+    color: "#D4A574"
+  },
+  {
+    name: "Gemini CLI",
+    url: "https://cloud.google.com/gemini",
+    icon: "simple-icons:google",
+    description: "Command-line AI assistant for complex debugging",
+    color: "#4285F4"
+  },
+  {
+    name: "n8n",
+    url: "https://n8n.io",
+    icon: "simple-icons:n8n",
+    description: "Open source automation for your workflows",
+    color: "#EA4B71"
+  },
+  {
+    name: "Tailwind CSS",
+    url: "https://tailwindcss.com",
+    icon: "simple-icons:tailwindcss",
+    description: "Utility-first CSS framework",
+    color: "#06B6D4"
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com",
+    icon: "simple-icons:github",
+    description: "Code hosting and collaboration",
+    color: "#181717"
+  }
+];
+
+const collaborationTypes = [
+  {
+    icon: "lucide:pen-line",
+    title: "Guest Posts",
+    description: "Have technical expertise to share? Propose a guest article on topics related to architecture, performance, or automation."
+  },
+  {
+    icon: "lucide:link",
+    title: "Link Exchange",
+    description: "Run a quality technical blog? Let's establish a mutually beneficial visibility exchange."
+  },
+  {
+    icon: "lucide:code-2",
+    title: "Open Source Projects",
+    description: "Developing an interesting tool or library? Let's talk and see how we can collaborate."
+  },
+  {
+    icon: "lucide:handshake",
+    title: "Partnerships",
+    description: "Offer services or tools for developers? Let's discuss a partnership suited to our respective audiences."
+  }
+];
+---
+
+<BaseLayout
+  title="Partners & Collaborations"
+  description="Discover our partners, the tools we recommend, and collaboration opportunities."
+>
+  <div class="space-y-16">
+    <!-- Hero Section -->
+    <section class="py-12 px-4">
+      <div class="card bg-base-100 shadow-xl max-w-4xl mx-auto">
+        <div class="card-body text-center">
+          <div class="flex justify-center mb-6">
+            <Icon name="lucide:users" class="w-16 h-16 text-primary" />
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-4 text-base-content">
+            Partners & Collaborations
+          </h1>
+          <p class="text-xl text-base-content/70 max-w-2xl mx-auto leading-relaxed mb-8">
+            Let's build together. Whether you're a company, an independent developer, 
+            or a content creator, let's explore collaboration possibilities.
+          </p>
+          <div>
+            <a href="mailto:contact@benchwiseunderflow.in" class="btn btn-primary btn-lg gap-2">
+              <Icon name="lucide:mail" class="w-5 h-5" />
+              <span>Contact Us</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners Section (commented out) -->
+    <!-- 
+    <section>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Icon name="lucide:handshake" class="w-8 h-8 text-primary" />
+          <span>Our Partners</span>
+        </h2>
+        <p class="text-base-content/70 max-w-2xl mx-auto">
+          They trust us and support our approach.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {partners.map((partner) => (
+          <a
+            href={partner.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
+          >
+            <div class="card-body items-center text-center">
+              <img 
+                src={partner.logo} 
+                alt={partner.name}
+                class="h-20 mb-4"
+              />
+              <h3 class="card-title text-xl">{partner.name}</h3>
+              <p class="text-sm text-base-content/70">{partner.description}</p>
+              <div class="card-actions mt-4">
+                <div class="badge badge-outline gap-2">
+                  <Icon name="lucide:external-link" class="w-3 h-3" />
+                  Visit
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+    -->
+
+    <!-- Recommended Resources -->
+    <section>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Icon name="lucide:heart" class="w-8 h-8 text-primary" />
+          <span>Recommended Resources</span>
+        </h2>
+        <p class="text-base-content/70 max-w-2xl mx-auto">
+          The tools and services that power our daily workflow.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {resources.map((resource) => (
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="card-body">
+              <div class="flex items-center gap-4 mb-3">
+                <div 
+                  class="w-12 h-12 rounded-lg flex items-center justify-center"
+                  style={`background-color: ${resource.color}15`}
+                >
+                  <Icon 
+                    name={resource.icon} 
+                    class="w-7 h-7"
+                    style={`color: ${resource.color}`}
+                  />
+                </div>
+                <h3 class="card-title text-lg">{resource.name}</h3>
+              </div>
+              <p class="text-sm text-base-content/70 leading-relaxed">
+                {resource.description}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Collaboration Opportunities -->
+    <section>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+          <Icon name="lucide:sparkles" class="w-8 h-8 text-primary" />
+          <span>Collaboration Opportunities</span>
+        </h2>
+        <p class="text-base-content/70 max-w-2xl mx-auto">
+          Multiple ways to work together and create value.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {collaborationTypes.map((type) => (
+          <div class="card bg-gradient-to-br from-base-100 to-base-200 shadow-lg">
+            <div class="card-body">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                  <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Icon name={type.icon} class="w-6 h-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 class="card-title text-xl mb-2">{type.title}</h3>
+                  <p class="text-base-content/70 leading-relaxed">
+                    {type.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-12 text-center">
+      <Icon name="lucide:rocket" class="w-16 h-16 text-primary mx-auto mb-6" />
+      <h2 class="text-3xl font-bold mb-4">Ready to collaborate?</h2>
+      <p class="text-lg text-base-content/70 max-w-2xl mx-auto mb-8">
+        Whether you have a specific project in mind or simply want to exchange ideas, 
+        don't hesitate to contact us. We typically respond within 48 hours.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="mailto:contact@benchwiseunderflow.in" class="btn btn-primary btn-lg gap-2">
+          <Icon name="lucide:mail" class="w-5 h-5" />
+          <span>Send an Email</span>
+        </a>
+        <a href="/blog" class="btn btn-outline btn-lg gap-2">
+          <Icon name="lucide:book-open" class="w-5 h-5" />
+          <span>Read the Blog</span>
+        </a>
+      </div>
+      
+      <div class="divider my-8"></div>
+      
+      <div class="text-sm text-base-content/60">
+        <p class="mb-2">You can also find us on:</p>
+        <div class="flex gap-4 justify-center">
+          <a href="https://github.com/pcescato" target="_blank" rel="noopener" class="link link-hover">
+            <Icon name="lucide:github" class="w-5 h-5 inline mr-1" />
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/pascalcescato" target="_blank" rel="noopener" class="link link-hover">
+            <Icon name="lucide:linkedin" class="w-5 h-5 inline mr-1" />
+            LinkedIn
+          </a>
+          <a href="/rss.xml" class="link link-hover">
+            <Icon name="lucide:rss" class="w-5 h-5 inline mr-1" />
+            RSS
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+const repo = "pcescato/benchwiseunderflow-comments-en";
+const repoId = "R_kgDOQPz3EA";
+const category = "Commentaires";
+const categoryId = "DIC_kwDOQPz3EM4Cxdu2";
+---
+
+<section id="comments" class="mt-12 border-t border-gray-600/40 pt-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-semibold">💬 Commentaires</h2>
+    <button
+      id="toggle-comments"
+      class="btn px-4 py-2 text-sm rounded-lg bg-base-200 hover:bg-base-300 transition-all"
+    >
+      Afficher les commentaires
+    </button>
+  </div>
+
+  <div id="giscus-container" class="hidden">
+    <noscript class="text-sm opacity-70">
+      Activez JavaScript pour voir les commentaires via Giscus.
+    </noscript>
+  </div>
+
+  <script is:inline>
+    const button = document.getElementById("toggle-comments");
+    const container = document.getElementById("giscus-container");
+    let loaded = false;
+
+    const loadGiscus = () => {
+      if (loaded) return;
+      loaded = true;
+
+      const script = document.createElement("script");
+      script.src = "https://giscus.app/client.js";
+      script.setAttribute("data-repo", "{{repo}}".replace(/{{repo}}/, "pcescato/benchwiseunderflow-comments-en"));
+      script.setAttribute("data-repo-id", "{{repoId}}".replace(/{{repoId}}/, "⚙️"));
+      script.setAttribute("data-category", "{{category}}".replace(/{{category}}/, "Commentaires"));
+      script.setAttribute("data-category-id", "{{categoryId}}".replace(/{{categoryId}}/, "⚙️"));
+      script.setAttribute("data-mapping", "pathname");
+      script.setAttribute("data-reactions-enabled", "0");
+      script.setAttribute("data-emit-metadata", "0");
+      script.setAttribute("data-theme", getCurrentTheme());
+      script.setAttribute("data-lang", "fr");
+      script.crossOrigin = "anonymous";
+      script.async = true;
+
+      container.appendChild(script);
+    };
+
+    const getCurrentTheme = () => {
+      const html = document.documentElement;
+      return html.getAttribute("data-theme-type") === "dark" ? "dark" : "light";
+    };
+
+    const syncTheme = () => {
+      const html = document.documentElement;
+      const observer = new MutationObserver(() => {
+        const iframe = document.querySelector("iframe.giscus-frame");
+        if (!iframe) return;
+        const theme = getCurrentTheme();
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme } } },
+          "https://giscus.app"
+        );
+      });
+      observer.observe(html, { attributes: true, attributeFilter: ["data-theme-type"] });
+    };
+
+    button.addEventListener("click", () => {
+      const visible = !container.classList.contains("hidden");
+      if (!loaded) loadGiscus();
+      container.classList.toggle("hidden");
+      button.textContent = visible ? "Afficher les commentaires" : "Masquer les commentaires";
+    });
+
+    syncTheme();
+  </script>
+</section>

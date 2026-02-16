@@ -1,0 +1,194 @@
+---
+import { SITE_TAB, SITE_DESCRIPTION, SITE_FAVICON, SITE_LANGUAGE, SITE_THEME, USER_SITE } from "@config";
+import { ClientRouter } from "astro:transitions";
+import ElementCrossing from "astro-vtbot/components/ElementCrossing.astro";
+import PointerOnNavigation from "astro-vtbot/components/PointerOnNavigation.astro";
+import Header from "@components/Header.astro";
+import Sidebar from "@components/Sidebar.astro";
+import Footer from "@components/Footer.astro";
+import Navbar from "@components/Navbar.astro";
+import MobileTOC from "@components/widgets/MobileTOC.astro";
+
+const { 
+  title, 
+  image, 
+  description = SITE_DESCRIPTION, 
+  headings = [], 
+  showTOC = false, 
+  isIndexed = true 
+} = Astro.props;
+
+// Construire l'URL canonique
+const canonicalURL = new URL(Astro.url.pathname, USER_SITE || Astro.site);
+
+// Construire l'URL complète de l'image sociale
+const socialImage = image 
+  ? (image.startsWith('http') ? image : new URL(image, USER_SITE || Astro.site).toString())
+  : new URL('/og-default.jpg', USER_SITE || Astro.site).toString();
+
+const pageTitle = `${title} - ${SITE_TAB}`;
+---
+
+<!doctype html>
+<html lang={SITE_LANGUAGE} class="bg-base-300" data-theme={SITE_THEME.light} data-theme-type="light">
+  <head>
+    <ClientRouter />
+    <ElementCrossing />
+    <PointerOnNavigation />
+    
+    <!-- Meta tags de base -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href={SITE_FAVICON} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={SITE_TAB} />
+    <meta property="og:locale" content={SITE_LANGUAGE.replace('-', '_')} />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    
+    <!-- LinkedIn utilise les tags Open Graph -->
+    
+    <!-- Header component (pour d'autres meta tags éventuels) -->
+    <Header title={title} description={description} favicon={SITE_FAVICON} image={image} />
+
+    <script define:vars={{ SITE_THEME }} is:inline>
+      (function () {
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        let theme;
+        if (storedTheme) {
+          theme = storedTheme;
+        } else {
+          theme = prefersDark ? SITE_THEME.dark : SITE_THEME.light;
+          localStorage.setItem("theme", theme);
+        }
+        document.documentElement.setAttribute("data-theme", theme);
+        const themeType = theme === SITE_THEME.dark ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme-type", themeType);
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) {
+            const newTheme = e.matches ? SITE_THEME.dark : SITE_THEME.light;
+            document.documentElement.setAttribute("data-theme", newTheme);
+            const newThemeType = e.matches ? "dark" : "light";
+            document.documentElement.setAttribute("data-theme-type", newThemeType);
+            localStorage.setItem("theme", newTheme);
+          }
+        });
+      })();
+    </script>
+    <script src="/datas.js" defer></script>
+  </head>
+
+  <body class="flex flex-col min-h-screen" {...isIndexed ? { "data-pagefind-body": true } : {}}>
+    <Navbar />
+
+    <div class="max-w-6xl mx-auto w-full flex-grow">
+      <div class="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 gap-4 p-4 h-full">
+        <main
+          class="col-span-1 md:col-span-4 lg:col-span-3 bg-transparent order-1 md:order-2 mt-16 md:mt-0 flex flex-col gap-4"
+        >
+          <div class="flex-grow flex flex-col gap-4">
+            <slot />
+          </div>
+
+          <Footer />
+        </main>
+        <aside class="col-span-1 bg-transparent order-2 md:order-1 md:top-4">
+          <Sidebar headings={headings} showTOC={showTOC} />
+          <slot name="sidebar" />
+        </aside>
+      </div>
+    </div>
+
+    <MobileTOC headings={headings} showTOC={showTOC} />
+
+    <script define:vars={{ SITE_THEME }} is:inline>
+      document.addEventListener("astro:after-swap", () => {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+          document.documentElement.setAttribute("data-theme", storedTheme);
+          const themeType = storedTheme === SITE_THEME.dark ? "dark" : "light";
+          document.documentElement.setAttribute("data-theme-type", themeType);
+        }
+      });
+    </script>
+
+    <script is:inline>
+      document.addEventListener("astro:page-load", () => {
+        document.querySelectorAll(".btn-copy").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const codeBlock = button.closest(".frosti-code");
+            const code = codeBlock.querySelector("code").textContent;
+            const copyIcon = button.querySelector(".frosti-code-toolbar-copy-icon");
+            const successIcon = button.querySelector(".frosti-code-toolbar-copy-success");
+            try {
+              await navigator.clipboard.writeText(code);
+              copyIcon.classList.add("hidden");
+              successIcon.classList.remove("hidden");
+              button.classList.add("copy-success");
+              setTimeout(() => {
+                copyIcon.classList.remove("hidden");
+                successIcon.classList.add("hidden");
+                button.classList.remove("copy-success");
+              }, 2000);
+            } catch (err) {
+              console.error("Failed to copy:", err);
+            }
+          });
+        });
+      });
+    </script>
+
+    <style is:inline>
+      .btn-copy {
+        position: relative;
+        overflow: hidden;
+      }
+      .copy-success {
+        animation: pulse 0.5s ease-in-out;
+      }
+      .frosti-code-toolbar-copy-success svg {
+        color: #10b981;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+    <script>
+      import initPhotoSwipe from '../scripts/photoswipe-init.js';
+      document.addEventListener('astro:page-load', initPhotoSwipe);
+      if (document.readyState !== 'loading') initPhotoSwipe();
+      else document.addEventListener('DOMContentLoaded', initPhotoSwipe);
+    </script>
+  </body>
+</html>

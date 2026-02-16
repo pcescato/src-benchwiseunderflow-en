@@ -1,0 +1,83 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import License from "@components/widgets/License.astro";
+import PostInfo from "@components/widgets/PostInfo.astro";
+import PostFilter from "@components/widgets/PostFilter.astro";
+import { getCollection, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import dayjs from "@utils/dayjs";
+import { DATE_FORMAT } from "@config";
+import MainCard from "@/components/MainCard.astro";
+
+// --- PARTIE 1 : Définition des Chemins (getStaticPaths) ---
+export async function getStaticPaths() {
+  const posts = await getCollection("notes");
+  return posts.map((blog) => ({
+    params: { slug: blog.slug },
+  }));
+}
+
+// --- PARTIE 2 : Récupération de l'Article et Rendu ---
+const { slug } = Astro.params;
+const blog: CollectionEntry<"notes"> | undefined = await getEntry("notes", slug);
+
+// GESTION 404
+if (!blog) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
+}
+
+// 🛑 MODIFICATION CLÉ : ON DÉSTRUCTURE remarkPluginFrontmatter DEPUIS blog.render()
+const { Content, remarkPluginFrontmatter, headings } = await blog.render();
+
+// ✅ C'EST CET OBJET QUI CONTIENT LES DONNÉES CALCULÉES
+// On utilise les variables pour plus de clarté
+const wordCount = remarkPluginFrontmatter.totalCharCount || 0;
+const readingTime = remarkPluginFrontmatter.readingTime || 0;
+
+// --- PARTIE 3 : Définition des Variables pour le Template ---
+const displayDate = blog.data.pubDate ? dayjs(blog.data.pubDate).format(DATE_FORMAT) : "";
+
+const image = new URL(`/og/${blog.slug}.png`, Astro.site).toString();
+const url = new URL(`/notes/${blog.slug}`, Astro.url.origin);
+---
+
+<BaseLayout
+  title={blog.data.title}
+  description={blog.data.description}
+  image={image}
+  headings={headings}
+  showTOC={true}
+>
+  <MainCard title={blog.data.title} description={blog.data.description} image={blog.data.image} infoIcon="lucide:info">
+    <PostInfo
+      pubDate={displayDate}
+      badge={blog.data.badge}
+      word={wordCount} // On utilise la variable wordCount
+      time={readingTime} // On utilise la variable readingTime
+    />
+
+    <div class="mb-6">
+      <PostFilter categories={blog.data.categories || []} tags={blog.data.tags || []} />
+    </div>
+
+    <div class="mt-8">
+      <div id="content" class="prose max-w-none prose-headings:scroll-mt-20 prose-img:rounded-xl prose-img:mx-auto">
+        <Content />
+        <License
+          url={url}
+          title={blog.data.title}
+          image={blog.data.image}
+          pubDate={blog.data.pubDate}
+          badge={blog.data.badge}
+          categories={blog.data.categories}
+          tags={blog.data.tags}
+          word={wordCount} // On utilise la variable wordCount
+          time={readingTime} // On utilise la variable readingTime
+        />
+      </div>
+    </div>
+  </MainCard>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Politique de confidentialité";
+const description =
+  "Politique de confidentialité du site, conforme au RGPD. Aucune donnée personnelle n'est utilisée à des fins publicitaires ou de suivi.";
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose lg:prose-xl max-w-none">
+    <h1>Politique de confidentialité</h1>
+    <p class="text-sm text-gray-500">Dernière mise à jour : octobre 2025</p>
+
+    <p>
+      Ce site respecte la vie privée de ses visiteurs. Aucune donnée personnelle
+      n’est collectée à des fins commerciales ou publicitaires.
+    </p>
+
+    <h2>1. Données collectées</h2>
+
+    <h3>a. Statistiques anonymes</h3>
+    <p>
+      Le site utilise <strong>Cloudflare Web Analytics</strong>, un service
+      d’analyse sans cookies, fourni par Cloudflare, Inc. Ce service mesure le
+      trafic global (pages consultées, temps de chargement, pays d’origine, type
+      d’appareil), sans enregistrer ni adresse IP ni identifiant personnel.
+      Les données collectées sont purement statistiques et ne permettent pas
+      d’identifier un visiteur.
+    </p>
+
+    <h3>b. Logs techniques</h3>
+    <p>
+      Pour des raisons de sécurité et de bon fonctionnement, le serveur peut
+      enregistrer temporairement certaines informations techniques (requêtes
+      HTTP, codes d’erreur, adresses IP anonymisées). Ces journaux sont
+      automatiquement supprimés au bout de quelques jours.
+    </p>
+
+    <h3>c. Formulaire de contact (le cas échéant)</h3>
+    <p>
+      Si vous utilisez un formulaire de contact, les informations transmises
+      (nom, adresse e-mail, message) ne sont utilisées que pour répondre à votre
+      demande. Aucune donnée n’est cédée à des tiers.
+    </p>
+
+    <h2>2. Cookies</h2>
+    <p>
+      Aucun cookie de suivi ou de mesure d’audience n’est déposé. Seuls des
+      cookies techniques peuvent être utilisés pour assurer certaines
+      fonctionnalités (par exemple, la gestion de session d’administration).
+    </p>
+
+    <h2>3. Hébergement et sécurité</h2>
+    <p>
+      Le site est hébergé sur un serveur géré par <strong>Layer7.net</strong>,
+      et protégé par le réseau <strong>Cloudflare</strong>. Cloudflare agit en
+      tant que sous-traitant technique, assurant la mise en cache, la protection
+      DDoS et la distribution sécurisée des contenus.
+    </p>
+
+    <h2>4. Vos droits</h2>
+    <p>
+      Conformément au Règlement Général sur la Protection des Données (RGPD),
+      vous pouvez demander la suppression ou la rectification de toute donnée
+      personnelle vous concernant en contactant :
+    </p>
+    <p>
+      📧 <a href="mailto:pascal.cescato@gmail.com">pascal.cescato@gmail.com</a>
+    </p>
+
+    <h2>5. Contact</h2>
+    <p>
+      <strong>Pascal CESCATO</strong><br />
+      📧 <a href="mailto:pascal.cescato@gmail.com">pascal.cescato@gmail.com</a>
+    </p>
+  </article>
+</BaseLayout>

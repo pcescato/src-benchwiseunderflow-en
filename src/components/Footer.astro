@@ -1,0 +1,32 @@
+---
+import { Icon } from "astro-icon/components";
+import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
+---
+
+<footer class="footer bg-base-100 p-10 rounded-xl shadow-lg">
+  <aside>
+    <p>
+      <a href="/confidentialite">Politique de confidentialité</a> | <a href="mentions-legales">Mentions légales</a><br />
+      Copyright © <a href={USER_SITE} target="_blank" class="font-bold">{USER_NAME}</a>
+      {new Date().getFullYear()} - Tous droits réservés
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4">
+      {
+        USER_FOOTER_SOCIAL_ICONS.map((icon) => (
+          <div class="tooltip" data-tip={icon.title}>
+            <a tabindex="0" href={icon.href} aria-label={icon.ariaLabel}>
+              <Icon name={icon.svg} class="text-2xl md:text-xl" />
+            </a>
+          </div>
+        ))
+      }
+      <div class="tooltip" data-tip="RSS Feed">
+        <a tabindex="0" href="/rss.xml" aria-label="RSS Feed">
+          <Icon name="ri:rss-line" class="text-2xl md:text-xl" />
+        </a>
+      </div>
+    </div>
+  </nav>
+</footer>

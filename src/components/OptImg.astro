@@ -1,0 +1,113 @@
+---
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { imageSize } from "image-size";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(__dirname, "../../");
+const publicDir = path.join(projectRoot, "public");
+
+const {
+  src,
+  alt = "",
+  caption = "",
+  className = "",
+  loading = "lazy",
+  sizes = ["320", "640", "1024", "1440"],
+} = Astro.props;
+
+const basePath = src.replace(/\.\w+$/, "");
+const absBasePath = path.join(publicDir, basePath);
+
+function fileExists(filePath: string) {
+  try {
+    return fs.existsSync(filePath);
+  } catch {
+    return false;
+  }
+}
+
+// 🧠 Lecture sûre des dimensions
+let width, height;
+try {
+  const fullPath = path.join(publicDir, `${basePath}.webp`);
+  if (fileExists(fullPath)) {
+    const buffer = fs.readFileSync(fullPath); // lecture binaire
+    const dimensions = imageSize(buffer);
+    width = dimensions.width;
+    height = dimensions.height;
+  }
+} catch (err) {
+  console.warn("❌ Impossible de lire la taille de l’image :", src, err);
+}
+
+// Construit les srcset dynamiques
+// ✅ Construction des srcset dynamiques
+const existingSizes: string[] = sizes.filter((size: string) =>
+  fileExists(`${absBasePath}-${size}.webp`) ||
+  fileExists(`${absBasePath}-${size}.avif`)
+);
+
+const srcSetWebp: string = existingSizes
+  .filter((size: string) => fileExists(`${absBasePath}-${size}.webp`))
+  .map((size: string) => `${basePath}-${size}.webp ${size}w`)
+  .join(", ");
+
+const srcSetAvif: string = existingSizes
+  .filter((size: string) => fileExists(`${absBasePath}-${size}.avif`))
+  .map((size: string) => `${basePath}-${size}.avif ${size}w`)
+  .join(", ");
+
+// Fallback : si aucune version réduite trouvée, on prend 640.webp ou l’original
+const fallbackSrc = fileExists(`${absBasePath}-640.webp`)
+  ? `${basePath}-640.webp`
+  : `${basePath}.webp`;
+
+const sizesAttr = "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1024px";
+
+---
+
+<figure class={`optimg ${className}`}>
+  <a
+    href={`${basePath}.webp`}
+    class="article-gallery-item"
+    data-pswp-width={width}
+    data-pswp-height={height}
+  >
+  <picture>
+    {srcSetAvif && <source srcset={srcSetAvif as string} type="image/avif" sizes={sizesAttr} />}
+    {srcSetWebp && <source srcset={srcSetWebp as string} type="image/webp" sizes={sizesAttr} />}
+    <img
+      src={fallbackSrc}
+      srcset={srcSetWebp || undefined}
+      sizes={sizesAttr}
+      data-pswp-src={`${basePath}.webp`}
+      class="lazyload"
+      alt={alt}
+      loading={loading}
+    />
+  </picture>
+  </a>
+  {caption && caption.trim() && <figcaption set:html={caption} />}
+</figure>
+
+<style>
+.optimg {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+.optimg img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.optimg figcaption {
+  font-size: 0.9rem;
+  color: var(--color-gray, #666);
+  margin-top: 0.4rem;
+}
+</style>

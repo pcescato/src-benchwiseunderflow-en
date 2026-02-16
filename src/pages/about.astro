@@ -1,0 +1,105 @@
+---
+// src/pages/about.astro (EN version)
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MainCard from "@/components/MainCard.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<BaseLayout
+  title="About"
+  description="Benchwise Underflow: a space where technique is thought through before deployment. 30 years of experience across code, systems, and pedagogy."
+>
+  <MainCard title="About" description="A space where technique is thought through before deployment" infoIcon="lucide:info">
+    <div class="prose prose-lg max-w-none">
+      <div class="text-center mb-12 not-prose">
+        <h1 class="text-5xl font-bold mb-4">Benchwise Underflow</h1>
+        <p class="text-2xl text-primary font-semibold mb-6">Dive into Performance — Beyond the Overflow.</p>
+      </div>
+
+      <div class="mb-12">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="flex-shrink-0"><Icon name="lucide:compass" class="w-8 h-8 text-primary" /></div>
+          <div>
+            <h2 class="text-2xl font-bold mb-4 mt-0">Introduction</h2>
+            <p class="text-lg leading-relaxed">Welcome to Benchwise Underflow, a space where technique is thought through before deployment. Here, we explore what lies beneath the surface: flows, structure, the logic that holds systems together.</p>
+            <p class="text-lg leading-relaxed">Neither trend nor manifesto: a hands-on workshop, built from trials, tools, and reflections on the sustainability of modern architectures.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+          <Icon name="lucide:layers" class="w-7 h-7 text-primary" /><span>Main Sections</span>
+        </h2>
+        <div class="space-y-6 not-prose">
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body"><div class="flex items-start gap-4">
+              <Icon name="lucide:pen-line" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+              <div><h3 class="text-xl font-bold mb-3">Workshop Notes</h3>
+              <p class="text-base-content/80 leading-relaxed">Quick observations, field feedback, invisible fixes. The trace of bench work: where ideas take shape before being polished.</p></div>
+            </div></div>
+          </div>
+
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body"><div class="flex items-start gap-4">
+              <Icon name="lucide:map" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+              <div><h3 class="text-xl font-bold mb-3">Explorations and Trajectories</h3>
+              <p class="text-base-content/80 leading-relaxed mb-3">My writing connects design and execution, principles and practices. I write as I build: seeking structure, coherence, the relevant approach, and each project becomes an exploration — of logic, method, duration.</p>
+              <p class="text-base-content/80 leading-relaxed mb-3">It's not just another production, but a way to understand how systems hold, evolve, and sometimes fail.</p>
+              <p class="text-base-content/80 leading-relaxed">Writing extends workshop work: it shapes the flow, traces connections, keeps memory of adjustments. Think, build, correct, transmit — one movement, multiple depths.</p></div>
+            </div></div>
+          </div>
+
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body"><div class="flex items-start gap-4">
+              <Icon name="lucide:code-2" class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+              <div><h3 class="text-xl font-bold mb-3">Projects</h3>
+              <p class="text-base-content/80 leading-relaxed">Proofs of Concept, scripts, pipelines, integrations. Simple tools, tested, designed to last.</p></div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-12">
+        <div class="card bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/20 shadow-xl">
+          <div class="card-body">
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+              <Icon name="lucide:waves" class="w-7 h-7 text-primary" /><span>From Underflow to Overflow</span>
+            </h2>
+            <div class="space-y-4 text-base-content/90">
+              <p class="leading-relaxed">It all begins in the hidden flow: understanding the mechanics, stabilizing them, making them intelligible. Then comes the moment to surface — to share, document, transmit.</p>
+              <p class="leading-relaxed"><strong>Underflow</strong> is the internal layer: thought, structure, performance. <strong>Overflow</strong> is diffusion: publication, practice, opening to others.</p>
+              <p class="leading-relaxed font-semibold text-primary">Between the two: a space of balance, where understanding becomes creation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-12">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="flex-shrink-0"><Icon name="lucide:user" class="w-8 h-8 text-primary" /></div>
+          <div>
+            <h2 class="text-2xl font-bold mb-4 mt-0">The Author</h2>
+            <p class="text-lg leading-relaxed mb-4">For over thirty years, Pascal Cescato has been designing, training, and supporting around code, systems, and knowledge transmission. His path crosses varied environments — from training to engineering, from field work to tool design.</p>
+            <p class="text-lg leading-relaxed mb-4">His thread: transforming complexity into clear structure. Making practice into lasting understanding.</p>
+            <p class="text-lg leading-relaxed mb-4">Benchwise Underflow is the natural continuation of this journey — a space to connect technique and thought.</p>
+            <div class="card bg-base-100 border-l-4 border-primary shadow-md not-prose">
+              <div class="card-body py-4">
+                <p class="text-lg font-semibold text-primary mb-0">Clear systems. Honest tools. Real results.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-16 not-prose">
+        <div class="divider"></div>
+        <h3 class="text-xl font-semibold mb-6">Ready to explore?</h3>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="/blog" class="btn btn-primary gap-2"><Icon name="lucide:book-open" class="w-5 h-5" /><span>Read the blog</span></a>
+          <a href="/contact" class="btn btn-outline gap-2"><Icon name="lucide:mail" class="w-5 h-5" /><span>Contact me</span></a>
+        </div>
+      </div>
+    </div>
+  </MainCard>
+</BaseLayout>

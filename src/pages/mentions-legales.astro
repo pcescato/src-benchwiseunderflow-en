@@ -1,0 +1,70 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Mentions légales";
+const description =
+  "Mentions légales du site, conformément à la loi française et au RGPD.";
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose lg:prose-xl max-w-none">
+    <h1>Mentions légales</h1>
+    <p class="text-sm text-gray-500">Dernière mise à jour : octobre 2025</p>
+
+    <h2>1. Éditeur du site</h2>
+    <p>
+      Le présent site est édité par <strong>Pascal CESCATO</strong>, à titre
+      personnel.  
+      <br />
+      📧 Contact :
+      <a href="mailto:pascal.cescato@gmail.com">pascal.cescato@gmail.com</a>
+    </p>
+
+    <h2>2. Hébergement</h2>
+    <p>
+      Le site est hébergé par <strong>Layer7.net</strong>.<br />
+      <a href="https://www.layer7.net" target="_blank" rel="noopener">
+        www.layer7.net
+      </a>
+    </p>
+
+    <h2>3. Protection et sécurité</h2>
+    <p>
+      Le site est protégé par le réseau <strong>Cloudflare</strong>, qui assure
+      la distribution sécurisée des contenus, la protection DDoS et la mise en
+      cache.  
+      <br />
+      Cloudflare agit en tant que sous-traitant technique.
+    </p>
+
+    <h2>4. Propriété intellectuelle</h2>
+    <p>
+      L’ensemble du contenu de ce site (textes, images, code, mises en page) est
+      protégé par le droit d’auteur. Toute reproduction, distribution ou
+      modification sans autorisation préalable est interdite.  
+      <br />
+      Certains visuels ou logos peuvent appartenir à leurs détenteurs
+      respectifs.
+    </p>
+
+    <h2>5. Responsabilité</h2>
+    <p>
+      Les informations publiées le sont à titre informatif et peuvent être
+      modifiées à tout moment.  
+      L’éditeur ne saurait être tenu responsable des erreurs, omissions ou
+      indisponibilités temporaires du site.
+    </p>
+
+    <h2>6. Données personnelles</h2>
+    <p>
+      La gestion des données personnelles est détaillée dans la page
+      <a href="/confidentialite">Politique de confidentialité</a>.
+    </p>
+
+    <h2>7. Droit applicable</h2>
+    <p>
+      Le présent site est régi par le droit français.  
+      En cas de litige, les tribunaux français seront seuls compétents.
+    </p>
+  </article>
+</BaseLayout>

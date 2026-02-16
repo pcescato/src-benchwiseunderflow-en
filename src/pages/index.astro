@@ -1,0 +1,293 @@
+---
+// src/pages/index.astro (EN version)
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import dayjs from "@utils/dayjs";
+import { DATE_FORMAT } from "@config";
+
+// Get all published posts, sorted by date
+const allPosts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => {
+    const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+    const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+    return dateB - dateA;
+  });
+
+// Posts to display
+const featuredPost = allPosts[0]; // Latest post
+const secondPost = allPosts[1]; // Second latest
+const thirdPost = allPosts[2]; // Third latest
+
+// Random post: exclude first 3
+const remainingPosts = allPosts.slice(3);
+const randomPost = remainingPosts.length > 0 
+  ? remainingPosts[Math.floor(Math.random() * remainingPosts.length)]
+  : null;
+
+// Count posts by category
+const categoriesCount = allPosts.reduce((acc, post) => {
+  (post.data.categories || []).forEach((cat: string) => {
+    acc[cat] = (acc[cat] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+const categoryNames = Object.keys(categoriesCount).sort();
+
+const categoryConfig: Record<string, { icon: string; color: string }> = {
+  // Existing categories
+  Databases: { icon: "lucide:database", color: "oklch(0.7 0.2 30)" },
+  Code: { icon: "lucide:code-2", color: "oklch(0.6 0.2 160)" },
+  Method: { icon: "lucide:lightbulb", color: "oklch(0.8 0.2 80)" },
+  "Case Study": { icon: "lucide:microscope", color: "oklch(0.65 0.2 280)" },
+  Extensions: { icon: "lucide:puzzle", color: "oklch(0.7 0.2 200)" },
+  Tools: { icon: "lucide:wrench", color: "oklch(0.6 0.2 120)" },
+  Themes: { icon: "lucide:palette", color: "oklch(0.7 0.2 10)" },
+  WooCommerce: { icon: "lucide:shopping-cart", color: "oklch(0.65 0.2 340)" },
+
+  // New categories
+  "Asides": {
+    icon: "lucide:message-square",
+    color: "oklch(0.75 0.15 50)",
+  },
+  "Comparisons": {
+    icon: "lucide:scale",
+    color: "oklch(0.65 0.2 250)",
+  },
+  "Tutorials": {
+    icon: "lucide:graduation-cap",
+    color: "oklch(0.75 0.18 130)",
+  },
+  "PoC": {
+    icon: "lucide:flask-conical",
+    color: "oklch(0.7 0.22 310)",
+  },
+};
+
+const categories = categoryNames.map((name) => ({
+  name,
+  count: categoriesCount[name] || 0,
+  icon: categoryConfig[name]?.icon || "lucide:folder",
+  color: categoryConfig[name]?.color || "oklch(0.6 0.1 80)",
+}));
+
+function formatDate(date: Date | undefined) {
+  return date ? dayjs(date).format(DATE_FORMAT) : "";
+}
+---
+
+<BaseLayout
+  title="Home"
+  description="Performance, architecture and thoughtful code. Real-world insights, technical analysis, and tools to build sustainable systems."
+>
+  <div class="space-y-12">
+    <!-- Hero Section -->
+    <section class="text-center py-12 px-4">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4 text-base-content">
+        Benchwise Underflow
+      </h1>
+      <p class="text-xl md:text-2xl text-primary font-semibold mb-8">
+        Performance, architecture and thoughtful code
+      </p>
+      <div class="max-w-3xl mx-auto">
+        <div class="card bg-base-100 shadow-lg border border-base-300">
+          <div class="card-body py-6">
+            <p class="text-lg text-base-content leading-relaxed">
+              Real-world insights, technical analysis, and tools to build sustainable systems. 
+              From reflection to implementation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Article -->
+    {featuredPost && (
+      <section>
+        <a href={`/blog/${featuredPost.slug}`} class="block group">
+          <article class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            {featuredPost.data.image && (
+              <figure class="relative overflow-hidden aspect-video">
+                <Image
+                  src={featuredPost.data.image}
+                  alt={featuredPost.data.title}
+                  width={1200}
+                  height={630}
+                  widths={[320, 640, 1024, 1440]}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              </figure>
+            )}
+            <div class="card-body">
+              {featuredPost.data.badge && (
+                <div class="badge badge-primary badge-outline">{featuredPost.data.badge}</div>
+              )}
+              <h3 class="card-title text-2xl group-hover:text-primary transition-colors">
+                {featuredPost.data.title}
+              </h3>
+              <p class="text-base-content/70">{featuredPost.data.description}</p>
+              <div class="flex items-center gap-4 text-sm text-base-content/50 mt-4">
+                <time datetime={featuredPost.data.pubDate?.toISOString()}>
+                  <Icon name="lucide:calendar" class="w-4 h-4 inline mr-1" />
+                  {formatDate(featuredPost.data.pubDate)}
+                </time>
+                {featuredPost.data.categories && featuredPost.data.categories.length > 0 && (
+                  <span>
+                    <Icon name="lucide:folder" class="w-4 h-4 inline mr-1" />
+                    {featuredPost.data.categories[0]}
+                  </span>
+                )}
+              </div>
+            </div>
+          </article>
+        </a>
+      </section>
+    )}
+
+    <!-- Categories Section -->
+    <section>
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <Icon name="lucide:layout-grid" class="w-6 h-6 text-primary" />
+        <span>Explore by Category</span>
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {categories.map((cat) => (
+          <a
+            href={`/blog/category/${cat.name}`}
+            class="card bg-base-100 shadow hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <div class="card-body items-center text-center p-6">
+              <Icon
+                name={cat.icon}
+                class="w-10 h-10 mb-2"
+                style={`color: ${cat.color}`}
+              />
+              <h3 class="font-bold text-lg">{cat.name}</h3>
+              <div class="badge badge-ghost">
+                {cat.count} {cat.count === 1 ? 'article' : 'articles'}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Three Articles Grid -->
+    <section>
+      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+        <Icon name="lucide:book-open" class="w-6 h-6 text-primary" />
+        <span>Discover</span>
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Second Post -->
+        {secondPost && (
+          <a href={`/blog/${secondPost.slug}`} class="block group">
+            <article class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+              {secondPost.data.image && (
+                <figure class="relative overflow-hidden aspect-video">
+                  <Image
+                    src={secondPost.data.image}
+                    alt={secondPost.data.title}
+                    width={600}
+                    height={315}
+                    widths={[320, 480, 640]}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="eager"
+                    fetchpriority="high"
+                  />
+                </figure>
+              )}
+              <div class="card-body">
+                <div class="badge badge-secondary badge-sm">Recent</div>
+                <h3 class="card-title text-lg group-hover:text-primary transition-colors line-clamp-2">
+                  {secondPost.data.title}
+                </h3>
+                <p class="text-sm text-base-content/70 line-clamp-3">{secondPost.data.description}</p>
+                <time class="text-xs text-base-content/50 mt-2">
+                  {formatDate(secondPost.data.pubDate)}
+                </time>
+              </div>
+            </article>
+          </a>
+        )}
+
+        <!-- Third Post -->
+        {thirdPost && (
+          <a href={`/blog/${thirdPost.slug}`} class="block group">
+            <article class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+              {thirdPost.data.image && (
+                <figure class="relative overflow-hidden aspect-video">
+                  <Image
+                    src={thirdPost.data.image}
+                    alt={thirdPost.data.title}
+                    width={600}
+                    height={315}
+                    widths={[320, 480, 640]}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </figure>
+              )}
+              <div class="card-body">
+                <div class="badge badge-accent badge-sm">Popular</div>
+                <h3 class="card-title text-lg group-hover:text-primary transition-colors line-clamp-2">
+                  {thirdPost.data.title}
+                </h3>
+                <p class="text-sm text-base-content/70 line-clamp-3">{thirdPost.data.description}</p>
+                <time class="text-xs text-base-content/50 mt-2">
+                  {formatDate(thirdPost.data.pubDate)}
+                </time>
+              </div>
+            </article>
+          </a>
+        )}
+
+        <!-- Random Post -->
+        {randomPost && (
+          <a href={`/blog/${randomPost.slug}`} class="block group">
+            <article class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+              {randomPost.data.image && (
+                <figure class="relative overflow-hidden aspect-video">
+                  <Image
+                    src={randomPost.data.image}
+                    alt={randomPost.data.title}
+                    width={600}
+                    height={315}
+                    widths={[320, 480, 640]}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </figure>
+              )}
+              <div class="card-body">
+                <div class="badge badge-ghost badge-sm">Random</div>
+                <h3 class="card-title text-lg group-hover:text-primary transition-colors line-clamp-2">
+                  {randomPost.data.title}
+                </h3>
+                <p class="text-sm text-base-content/70 line-clamp-3">{randomPost.data.description}</p>
+                <time class="text-xs text-base-content/50 mt-2">
+                  {formatDate(randomPost.data.pubDate)}
+                </time>
+              </div>
+            </article>
+          </a>
+        )}
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="text-center py-8">
+      <a href="/blog" class="btn btn-primary btn-lg gap-2">
+        <Icon name="lucide:arrow-right" class="w-5 h-5" />
+        <span>Explore All Articles</span>
+      </a>
+    </section>
+  </div>
+</BaseLayout>

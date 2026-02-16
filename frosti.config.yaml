@@ -1,0 +1,81 @@
+site:
+  tab: Benchwise Underflow
+  title: Benchwise Underflow
+  description: A clean, elegant, and fast static blog template! 🚀 Developed with Astro
+  language: en
+  favicon: /favicon.png
+  theme:
+    light: nord
+    dark: dark
+    code: ['slack-ochin', 'slack-dark']
+  date_format: MMMM D, YYYY
+  blog:
+    pageSize: 10
+  menu: 
+    - id: home
+      text: Home
+      href: /
+      svg: "material-symbols:home-outline-rounded"
+      target: _self
+    - id: blog
+      text: The blog
+      href: /blog
+      svg: "material-symbols:library-books-outline-rounded"
+      target: _self
+    - id: friend
+      text: Partnerships
+      href: /partnerships
+      svg: "material-symbols:group-add-outline-rounded"
+      target: _self
+    - id: about
+      text: About
+      href: /about
+      svg: "material-symbols:info-outline-rounded"
+      target: _self
+    - id: contact
+      text: Contact
+      href: "mailto:pascal.cescato@gmail.com"
+      target: _blank
+      svg: "material-symbols:attach-email-outline-rounded"
+
+# 
+user:
+  name: Pascal CESCATO
+  site: "https://en.benchwiseunderflow.in" 
+  avatar: /profile.webp
+  sidebar: 
+    social:
+      - href: "https://www.linkedin.com/in/pascalcescato/"
+        ariaLabel: LinkedIn
+        title: LinkedIn
+        svg: "ri:linkedin-box-line"
+      - href: "https://github.com/pcescato"
+        ariaLabel: Github
+        title: Github
+        svg: "ri:github-line"
+      - href: "https://x.com/pcescato"
+        ariaLabel: X.com
+        title: X.com
+        svg: "ri:twitter-x-line"
+      - href: "https://fr.benchwiseunderflow.in"
+        ariaLabel: French version
+        title: French version
+        svg: "ri:translate"        
+  footer:
+    social:
+      - href: "https://www.linkedin.com/in/pascalcescato"
+        ariaLabel: LinkedIn
+        title: LinkedIn
+        svg: "ri:linkedin-box-line"
+      - href: "https://github.com/pcescato"
+        ariaLabel: Github
+        title: Github
+        svg: "ri:github-line"
+      - href: "https://x.com/pcescato"
+        ariaLabel: X.com
+        title: X.com
+        svg: "ri:twitter-x-line"
+      - href: "https://fr.benchwiseunderflow.in"
+        ariaLabel: French version
+        title: French version
+        svg: "ri:translate"   

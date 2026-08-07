@@ -16,7 +16,7 @@
     "@astrojs/check": "^0.9.5",
     "@astrojs/mdx": "^4.3.5",
     "@astrojs/rss": "^4.0.12",
-    "@astrojs/sitemap": "^3.5.1",
+    "@astrojs/sitemap": "^3.7.3",
     "@astrojs/tailwind": "^6.0.2",
     "@expressive-code/plugin-line-numbers": "^0.41.3",
     "@notionhq/client": "^2.3.0",

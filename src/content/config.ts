@@ -4,6 +4,7 @@ const baseSchema = z.object({
     title: z.string(),
     description: z.string().optional(),
     pubDate: z.coerce.date().optional(),
+    lastmod: z.coerce.date().optional(),
     image: z.string().optional(),
     badge: z.string().optional(),
     draft: z.boolean().default(false),

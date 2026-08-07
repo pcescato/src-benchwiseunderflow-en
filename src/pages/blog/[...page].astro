@@ -16,12 +16,13 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
 }
 
 const { page }: { page: Page } = Astro.props;
+const params = Astro.params as { page?: string };
 
 const totalPages = Math.ceil(page.total / page.size);
 const pageLinks = generatePageLinks(totalPages);
 ---
 
-<BaseLayout title="Blog">
+<BaseLayout title="Blog" noindex={!params.page}>
   <!-- Blog Navigation Cards -->
   <CardGroup cols="2">
     <!-- Archives Card -->
